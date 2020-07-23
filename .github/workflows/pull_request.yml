@@ -1,0 +1,56 @@
+name: "Pull request"
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup
+        uses: actions/setup-go@v1
+        with:
+          go-version: "1.14"
+      - name: lint
+        run: |
+          sudo apt-get update && \
+          sudo apt-get install portaudio19-dev && \
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo sh -s -- -b /usr/local/bin v1.28.3 && \
+          make lint
+      - name: test
+        run: make test
+
+  build-macos:
+    runs-on: macos-latest
+    needs: test
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup
+        uses: actions/setup-go@v1
+        with:
+          go-version: "1.14"
+      - name: build
+        run: |
+          brew install pkg-config portaudio && \
+          make build
+
+  build-linux:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup
+        uses: actions/setup-go@v1
+        with:
+          go-version: "1.14"
+      - name: build
+        run: |
+          sudo apt-get update && \
+          sudo apt-get install portaudio19-dev && \
+          make build

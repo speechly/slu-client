@@ -1,0 +1,79 @@
+run:
+  tests: false
+  skip-dirs:
+    - test/
+
+linters-settings:
+  funlen:
+    lines: 100
+  goimports:
+    local-prefixes: speechly/slu-api
+  golint:
+    min-confidence: 0.8
+  gocognit:
+    min-complexity: 50
+  gomnd:
+    settings:
+      mnd:
+        # the list of enabled checks, see https://github.com/tommy-muehle/go-mnd/#checks for description.
+        checks: argument,case,condition,operation,return
+        ignored-numbers: 0,1
+  misspell:
+    locale: UK
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dogsled
+    - dupl
+    - errcheck
+    - funlen
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    - golint
+    # Disabled gomnd until https://github.com/golangci/golangci-lint/pull/983 is merged
+    # with support for ignoring specific numbers (e.g. 0 or 1).
+    # - gomnd
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - interfacer
+    - lll
+    - misspell
+    - nakedret
+    - rowserrcheck
+    - scopelint
+    - staticcheck
+    - structcheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - whitespace
+    - maligned
+    - prealloc
+    - gocognit
+    # TODO: enable godox once TODOs have been resolved
+    # - godox
+
+issues:
+  # Excluding configuration per-path, per-linter, per-text and per-source
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gomnd
+        - gocognit
+
+    - path: cmd/
+      linters:
+        - gochecknoinits
