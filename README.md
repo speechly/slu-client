@@ -4,11 +4,76 @@ This repository contains the source code for Speechly SLU API client, written in
 
 The client can be used as a standalone CLI app or included in other Go projects as a library.
 
+## Installation
+
+The client uses [portaudio](http://www.portaudio.com) for audio I/O, so it needs to be installed. Pre-built binaries for macOS and Linux amd64 arch are automatically compiled on every release - https://github.com/speechly/slu-client/releases, you can download them using e.g. `curl`.
+
+### macOS
+
+Install portaudio with Homebrew and download the binary:
+
+```sh
+brew install portaudio
+curl -L https://github.com/speechly/slu-client/releases/latest/download/speechly-slu-macos-amd64.tar.gz | tar xz
+```
+
+or, if you want a specific version:
+
+```sh
+export VERSION="v0.1.0"
+brew install portaudio
+curl -L https://github.com/speechly/slu-client/releases/latest/download/${VERSION}/speechly-slu-macos-amd64.tar.gz | tar xz
+```
+
+### Ubuntu / Debian
+
+Make sure to install `libportaudio2`. Currently only `amd64` arch binaries are pre-built:
+
+```sh
+sudo apt-get update && sudo apt-get install libportaudio2
+curl -L https://github.com/speechly/slu-client/releases/latest/download/speechly-slu-linux-amd64.tar.gz | tar xz
+```
+
+### Building from scratch
+
+Alternatively, you can build it yourself, make sure you have `make` and `go` installed. Minimum support Go version is `1.14`.
+
+#### macOS:
+
+```sh
+# Pre-requisites, assuming you have Homebrew installed.
+brew install git make go portaudio pkg-config
+
+# Clone the repo
+git clone git@github.com:speechly/slu-client.git
+cd slu-client
+
+# Build
+make build
+
+# Run
+./bin/speechly-slu help
+```
+
+#### Ubuntu / Debian
+
+```sh
+sudo apt-get update && sudo apt-get install git golang make portaudio19-dev libportaudio2
+
+# Clone the repo
+git clone git@github.com:speechly/slu-client.git
+cd slu-client
+
+# Build
+make build
+
+# Run
+./bin/speechly-slu help
+```
+
 ## Usage
 
 ### CLI
-
-Get the client and run it:
 
 ```sh
 # Make sure to generate config file first.
@@ -59,56 +124,6 @@ Global Flags:
       --slu_url string         Speechly SLU API URL. Scheme must be 'grpc+tls://' for TLS URL and 'grpc://' for non-TLS URL.
 
 Use "speechly-slu slu [command] --help" for more information about a command.
-```
-
-#### Installation
-
-The client uses [portaudio](http://www.portaudio.com) for audio I/O, so it needs to be installed:
-
-```sh
-# macOS + Homebrew
-$ brew install portaudio
-
-# Ubuntu / Debian
-$ sudo apt-get install libportaudio2
-```
-
-Pre-built binaries for macOS and Linux amd64 arch are automatically compiled on every release - https://github.com/speechly/slu-client/releases, you can download them using e.g. `curl`:
-
-```sh
-# macos, linux
-$ export PLATFORM="macos"
-$ export FILENAME="speechly-slu-${PLATFORM}-amd64.tar.gz"
-
-# If you want specific version
-$ export VERSION="v1.0.0"
-$ curl -LJO https://github.com/speechly/slu-client/releases/download/${VERSION}/${FILENAME}
-
-# Or if you want just the latest
-$ curl -LJO https://github.com/speechly/slu-client/releases/latest/download/${FILENAME}
-
-$ tar -xzf ${FILENAME}
-```
-
-Alternatively, you can build it yourself, make sure you have `make` and `go` installed. Minimum support Go version is `1.14`.
-
-```sh
-# Clone the repo
-$ git clone git@github.com:speechly/slu-client.git
-$ cd slu-client
-
-# Make sure you have portaudio headers available
-# macOS / Homebrew
-$ brew install portaudio
-
-# Ubuntu / Debian
-$ sudo apt-get install portaudio19-dev
-
-# Compile the parser
-$ make build
-
-# Run it
-$ ./bin/speechly-slu help
 ```
 
 ### Go library
