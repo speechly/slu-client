@@ -7,7 +7,7 @@ import (
 	"github.com/gordonklaus/portaudio"
 	"github.com/hashicorp/go-multierror"
 
-	"speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/logger"
 )
 
 // Player is an audio player that reads data from specified audio source,

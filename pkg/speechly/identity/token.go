@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"speechly/slu-client/pkg/logger"
-	"speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 // GetAccessToken is a convenience wrapper that instantiates a new identity client and calls Login on it.

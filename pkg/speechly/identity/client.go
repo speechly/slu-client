@@ -7,8 +7,8 @@ import (
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 
-	pgrpc "speechly/slu-client/internal/grpc"
-	"speechly/slu-client/pkg/speechly"
+	pgrpc "github.com/speechly/slu-client/internal/grpc"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 const (

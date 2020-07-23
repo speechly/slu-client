@@ -3,7 +3,7 @@ package slu
 import (
 	"errors"
 
-	"speechly/slu-client/internal/json"
+	"github.com/speechly/slu-client/internal/json"
 )
 
 // Segment represents a single SLU segment, which is bounded by a single SLU intent.

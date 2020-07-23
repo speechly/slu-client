@@ -1,4 +1,4 @@
-module speechly/slu-client
+module github.com/speechly/slu-client
 
 go 1.14
 

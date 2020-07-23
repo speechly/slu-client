@@ -10,7 +10,7 @@ import (
 	gaudio "github.com/go-audio/audio"
 	"github.com/go-audio/wav"
 
-	"speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/audio"
 )
 
 // WAV reader errors.

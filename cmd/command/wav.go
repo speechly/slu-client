@@ -7,9 +7,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"speechly/slu-client/internal/os"
-	"speechly/slu-client/pkg/audio"
-	"speechly/slu-client/pkg/audio/wav"
+	"github.com/speechly/slu-client/internal/os"
+	"github.com/speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/audio/wav"
 )
 
 var wavCmd = &cobra.Command{

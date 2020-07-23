@@ -8,11 +8,11 @@ import (
 	"io"
 	"net/url"
 
-	"speechly/slu-client/pkg/audio"
-	"speechly/slu-client/pkg/audio/wav"
-	"speechly/slu-client/pkg/logger"
-	"speechly/slu-client/pkg/speechly"
-	"speechly/slu-client/pkg/speechly/slu"
+	"github.com/speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/audio/wav"
+	"github.com/speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/pkg/speechly/slu"
 )
 
 // RecogniseMicrophone uses Speechly SLU API to recognise audio from the microphone.

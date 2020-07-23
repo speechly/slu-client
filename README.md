@@ -156,9 +156,9 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/text/language"
 
-	"speechly/slu-client/pkg/audio"
-	"speechly/slu-client/pkg/speechly/identity"
-	"speechly/slu-client/pkg/speechly/slu"
+	"github.com/speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/speechly/identity"
+	"github.com/speechly/slu-client/pkg/speechly/slu"
 )
 
 const (

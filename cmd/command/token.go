@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"speechly/slu-client/internal/application"
+	"github.com/speechly/slu-client/internal/application"
 )
 
 const tokenFilename = "access_token"

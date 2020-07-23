@@ -8,8 +8,8 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"speechly/slu-client/pkg/logger"
-	"speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 var (

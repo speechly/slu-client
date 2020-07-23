@@ -3,8 +3,8 @@ package wav
 import (
 	"encoding/binary"
 
-	"speechly/slu-client/pkg/audio"
-	"speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/logger"
 )
 
 // NewFilePlayer returns new audio.Player which uses a WAV reader as an audio source.
