@@ -8,7 +8,7 @@ import (
 	"github.com/gordonklaus/portaudio"
 	"github.com/hashicorp/go-multierror"
 
-	"speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/logger"
 )
 
 // RecordStream is an audio stream that implements io.WriterTo interface,

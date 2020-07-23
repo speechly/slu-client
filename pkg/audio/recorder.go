@@ -6,7 +6,7 @@ import (
 	"github.com/gordonklaus/portaudio"
 	"github.com/hashicorp/go-multierror"
 
-	"speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/logger"
 )
 
 // Recorder is an audio recorder that reads data from default OS audio input and writes data to specified  destination.

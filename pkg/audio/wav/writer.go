@@ -7,7 +7,7 @@ import (
 	"github.com/go-audio/wav"
 	"github.com/hashicorp/go-multierror"
 
-	"speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/audio"
 )
 
 // Supported WAV encodings.

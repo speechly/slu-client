@@ -8,10 +8,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"speechly/slu-client/internal/application"
-	"speechly/slu-client/internal/os"
-	"speechly/slu-client/pkg/audio"
-	"speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/internal/application"
+	"github.com/speechly/slu-client/internal/os"
+	"github.com/speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 var (

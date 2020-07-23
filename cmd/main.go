@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"speechly/slu-client/cmd/command"
+	"github.com/speechly/slu-client/cmd/command"
 )
 
 func main() {

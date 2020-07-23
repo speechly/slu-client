@@ -5,8 +5,8 @@ import (
 	"io"
 	"sync"
 
-	"speechly/slu-client/pkg/logger"
-	"speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 // AudioSource is the interface that represents the audio data source

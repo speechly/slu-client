@@ -3,8 +3,8 @@ package slu
 import (
 	"errors"
 
-	"speechly/slu-client/internal/json"
-	"speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/internal/json"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 var errNilValue = errors.New("cannot parse nil value")

@@ -3,8 +3,8 @@ package wav
 import (
 	"os"
 
-	"speechly/slu-client/pkg/audio"
-	"speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/audio"
+	"github.com/speechly/slu-client/pkg/logger"
 )
 
 // NewFileRecorder returns a new audio.Recorder with a WAV writer set as destination.

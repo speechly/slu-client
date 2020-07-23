@@ -1,8 +1,8 @@
 package slu
 
 import (
-	"speechly/slu-client/internal/json"
-	"speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/internal/json"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 // Entity is the entity detected by SLU API.

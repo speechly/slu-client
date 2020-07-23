@@ -5,7 +5,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/logger"
 )
 
 // NewLogger returns a new logger that writes to out with specified level.

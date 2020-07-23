@@ -8,9 +8,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	pgrpc "speechly/slu-client/internal/grpc"
-	"speechly/slu-client/pkg/logger"
-	"speechly/slu-client/pkg/speechly"
+	pgrpc "github.com/speechly/slu-client/internal/grpc"
+	"github.com/speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 // Config is the configuration of an SLU recognition stream.

@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"speechly/slu-client/internal/application"
-	"speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/internal/application"
+	"github.com/speechly/slu-client/pkg/logger"
 )
 
 const (

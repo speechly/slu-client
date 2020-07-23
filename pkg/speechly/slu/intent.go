@@ -1,6 +1,6 @@
 package slu
 
-import "speechly/slu-client/pkg/speechly"
+import "github.com/speechly/slu-client/pkg/speechly"
 
 // Intent is the intent detected by SLU API.
 type Intent struct {

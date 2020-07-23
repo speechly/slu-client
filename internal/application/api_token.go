@@ -9,9 +9,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"speechly/slu-client/pkg/logger"
-	"speechly/slu-client/pkg/speechly"
-	"speechly/slu-client/pkg/speechly/identity"
+	"github.com/speechly/slu-client/pkg/logger"
+	"github.com/speechly/slu-client/pkg/speechly"
+	"github.com/speechly/slu-client/pkg/speechly/identity"
 )
 
 const (
