@@ -12,7 +12,7 @@ var emptyID = uuid.UUID{}
 // See Speechly documentation for more information about audio contexts.
 type AudioContext struct {
 	ID          uuid.UUID `json:"id"`
-	Segments    segments  `json:"segments"`
+	Segments    Segments  `json:"segments"`
 	IsFinalised bool      `json:"is_finalised"`
 }
 

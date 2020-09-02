@@ -2,6 +2,7 @@ package slu
 
 import (
 	"errors"
+	"sort"
 
 	"github.com/speechly/slu-client/internal/json"
 	"github.com/speechly/slu-client/pkg/speechly"
@@ -33,16 +34,36 @@ func (t *Transcript) Parse(v *speechly.SLUTranscript, isTentative bool) error {
 	return nil
 }
 
-type transcripts map[int32]Transcript
+// Transcripts is a map of SLU transcripts.
+type Transcripts map[int32]Transcript
 
-func (t transcripts) MarshalJSON() ([]byte, error) {
+// NewTranscripts returns a new Transcripts constructed from t.
+func NewTranscripts(t []Transcript) Transcripts {
+	r := make(Transcripts, len(t))
+
+	for _, v := range t {
+		r[v.Index] = v
+	}
+
+	return r
+}
+
+// MarshalJSON implements json.Marshaler.
+func (t Transcripts) MarshalJSON() ([]byte, error) {
 	s, err := json.NewArraySerialiser(len(t) * 100)
 	if err != nil {
 		return nil, err
 	}
 
+	// Get sorted keys.
+	r := make([]int, 0, len(t))
 	for _, v := range t {
-		if err := s.Write(v); err != nil {
+		r = append(r, int(v.Index))
+	}
+	sort.Ints(r)
+
+	for _, i := range r {
+		if err := s.Write(t[int32(i)]); err != nil {
 			return nil, err
 		}
 	}

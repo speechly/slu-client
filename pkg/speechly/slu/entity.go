@@ -29,13 +29,31 @@ func (e *Entity) Parse(v *speechly.SLUEntity, isTentative bool) error {
 	return nil
 }
 
-type entityIndex struct {
-	Left, Right int32
+// EntityIndex is a struct used for indexing entities.
+type EntityIndex struct {
+	StartIndex, EndIndex int32
 }
 
-type entities map[entityIndex]Entity
+// Entities is a map of SLU entities.
+type Entities map[EntityIndex]Entity
 
-func (e entities) MarshalJSON() ([]byte, error) {
+// NewEntities returns new Entities constructed from e.
+func NewEntities(e []Entity) Entities {
+	r := make(Entities, len(e))
+	i := EntityIndex{}
+
+	for _, v := range e {
+		i.StartIndex = v.StartIndex
+		i.EndIndex = v.EndIndex
+
+		r[i] = v
+	}
+
+	return r
+}
+
+// MarshalJSON implements json.Marshaler.
+func (e Entities) MarshalJSON() ([]byte, error) {
 	s, err := json.NewArraySerialiser(len(e) * 100)
 	if err != nil {
 		return nil, err

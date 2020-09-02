@@ -11,8 +11,8 @@ import (
 type Segment struct {
 	ID          int32       `json:"id"`
 	IsFinalised bool        `json:"is_finalised"`
-	Transcripts transcripts `json:"transcripts"`
-	Entities    entities    `json:"entities"`
+	Transcripts Transcripts `json:"transcripts"`
+	Entities    Entities    `json:"entities"`
 	Intent      Intent      `json:"intent"`
 }
 
@@ -20,7 +20,7 @@ type Segment struct {
 func NewSegment(id int32) Segment {
 	return Segment{
 		Transcripts: make(map[int32]Transcript),
-		Entities:    make(map[entityIndex]Entity),
+		Entities:    make(map[EntityIndex]Entity),
 	}
 }
 
@@ -46,7 +46,7 @@ func (s *Segment) AddEntity(e Entity) error {
 		return errors.New("cannot add an entity to finalised segment")
 	}
 
-	i := entityIndex{e.StartIndex, e.EndIndex}
+	i := EntityIndex{e.StartIndex, e.EndIndex}
 	if v, ok := s.Entities[i]; ok && v.IsFinalised {
 		return errors.New("cannot override finalised entity")
 	}
@@ -99,9 +99,23 @@ func (s *Segment) Finalise() error {
 	return nil
 }
 
-type segments map[int32]Segment
+// Segments is a map of SLU segments.
+type Segments map[int32]Segment
 
-func (s segments) Get(id int32) Segment {
+// NewSegments returns a new Segments constructed from s.
+func NewSegments(s []Segment) Segments {
+	r := make(Segments, len(s))
+
+	for _, v := range s {
+		r[v.ID] = v
+	}
+
+	return r
+}
+
+// Get retrieves a Segment by id.
+// If a Segment with given id is not present, it will instead be added to s and returned.
+func (s Segments) Get(id int32) Segment {
 	seg, ok := s[id]
 	if !ok {
 		seg = NewSegment(id)
@@ -111,7 +125,8 @@ func (s segments) Get(id int32) Segment {
 	return seg
 }
 
-func (s segments) MarshalJSON() ([]byte, error) {
+// MarshalJSON implements json.Marshaler.
+func (s Segments) MarshalJSON() ([]byte, error) {
 	ser, err := json.NewArraySerialiser(len(s) * 100)
 	if err != nil {
 		return nil, err
