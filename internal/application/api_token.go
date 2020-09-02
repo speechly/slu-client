@@ -28,7 +28,7 @@ func GetAPIToken(
 		token    speechly.AccessToken
 	)
 
-	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, filePerms)
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, filePerms) // nolint: gosec
 	if err != nil {
 		return token, err
 	}

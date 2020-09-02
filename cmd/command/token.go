@@ -1,6 +1,7 @@
 package command
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -26,5 +27,10 @@ func removeCachedToken(cmd *cobra.Command, args []string) {
 }
 
 func getTokenPath() string {
+	if configFilePath != "" || identityURL != "" {
+		// Make sure we don't mix up tokens for different config files / custom identity URLs.
+		return filepath.Join(os.TempDir(), fmt.Sprintf("%s_%s", configFilePath, tokenFilename))
+	}
+
 	return filepath.Join(getConfigDir(), tokenFilename)
 }

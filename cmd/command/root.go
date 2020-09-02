@@ -44,7 +44,7 @@ func init() {
 	cobra.OnInitialize(setup)
 
 	rootCmd.PersistentFlags().IntVarP(&bufferSize, "buffer_size", "b", 2048, "Size of memory buffer to use (in bytes).")
-	rootCmd.PersistentFlags().StringVarP(&configFilePath, "config", "c", "", "Config file (default $HOME/.speechly).")
+	rootCmd.PersistentFlags().StringVarP(&configFilePath, "config", "c", "", "Config file (default $HOME/.speechly/config.json).") // nolint: lll
 	rootCmd.PersistentFlags().BoolVar(&enableDebug, "debug", false, "Enable debug output.")
 	rootCmd.PersistentFlags().StringVar(&sluURL, configKeySluURL, "", configDescSluURL)
 	rootCmd.PersistentFlags().StringVar(&identityURL, configKeyIdentityURL, "", configDescIdentityURL)
