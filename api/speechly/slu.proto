@@ -22,7 +22,7 @@
 
 syntax = "proto3";
 
-package v1;
+package speechly.slu.v1;
 
 option optimize_for = SPEED;
 option go_package = "speechly";
