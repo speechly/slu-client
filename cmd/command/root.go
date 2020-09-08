@@ -86,6 +86,8 @@ func setup() {
 
 	if err := parseConfig(); err != nil {
 		log.Warnf("Error parsing config: '%s', proceeding without config...", err)
+	} else {
+		log.Debugf("Running with config: %+v", config)
 	}
 }
 

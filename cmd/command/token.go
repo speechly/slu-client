@@ -1,6 +1,8 @@
 package command
 
 import (
+	"bytes"
+	"encoding/base32"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -27,14 +29,14 @@ func removeCachedToken(cmd *cobra.Command, args []string) {
 }
 
 func getTokenPath() string {
-	log.Debugf("Using config path '%s' and identity URL '%s'", configFilePath, identityURL)
-
-	if configFilePath != "" || identityURL != "" {
-		// Use either config filename or cleaned identity url as prefix for temp config.
-		_, f := filepath.Split(configFilePath)
-		if f == "" {
-			_, f = filepath.Split(filepath.Clean(identityURL))
-		}
+	if configFilePath != "" ||
+		appID != "" || deviceID != "" || languageCode != "" ||
+		sluURL != "" || identityURL != "" {
+		// base32 custom params together for the filename
+		b := bytes.NewBufferString(
+			fmt.Sprintf("%s%s%s%s%s%s", configFilePath, appID, deviceID, languageCode, sluURL, identityURL),
+		)
+		f := base32.StdEncoding.EncodeToString(b.Bytes())
 
 		// Make sure we don't mix up tokens for different config files / custom identity URLs.
 		p := filepath.Join(os.TempDir(), fmt.Sprintf("%s_%s", f, tokenFilename))
