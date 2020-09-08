@@ -1,6 +1,8 @@
 package slu
 
 import (
+	"sort"
+
 	"github.com/speechly/slu-client/internal/json"
 	"github.com/speechly/slu-client/pkg/speechly"
 )
@@ -37,6 +39,34 @@ type EntityIndex struct {
 // Entities is a map of SLU entities.
 type Entities map[EntityIndex]Entity
 
+// EntityIndexList is a list of entity indices.
+// It implements the sort.Interface, so it can be used for obtaining sorted list of entity indices.
+type EntityIndexList []EntityIndex
+
+// SortedEntityIndexList returns a sorted version of EntityIndexList constructed from Entities.
+func SortedEntityIndexList(e Entities) EntityIndexList {
+	r := make(EntityIndexList, 0, len(e))
+	for k := range e {
+		r = append(r, k)
+	}
+
+	sort.Sort(r)
+
+	return r
+}
+
+func (e EntityIndexList) Len() int {
+	return len(e)
+}
+
+func (e EntityIndexList) Less(i, j int) bool {
+	return e[i].StartIndex < e[j].StartIndex
+}
+
+func (e EntityIndexList) Swap(i, j int) {
+	e[i], e[j] = e[j], e[i]
+}
+
 // NewEntities returns new Entities constructed from e.
 func NewEntities(e []Entity) Entities {
 	r := make(Entities, len(e))
@@ -59,8 +89,8 @@ func (e Entities) MarshalJSON() ([]byte, error) {
 		return nil, err
 	}
 
-	for _, t := range e {
-		if err := s.Write(t); err != nil {
+	for _, k := range SortedEntityIndexList(e) {
+		if err := s.Write(e[k]); err != nil {
 			return nil, err
 		}
 	}

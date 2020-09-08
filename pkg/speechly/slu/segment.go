@@ -2,6 +2,7 @@ package slu
 
 import (
 	"errors"
+	"sort"
 
 	"github.com/speechly/slu-client/internal/json"
 )
@@ -19,6 +20,7 @@ type Segment struct {
 // NewSegment returns a new Segment with specified ID.
 func NewSegment(id int32) Segment {
 	return Segment{
+		ID:          id,
 		Transcripts: make(map[int32]Transcript),
 		Entities:    make(map[EntityIndex]Entity),
 	}
@@ -132,8 +134,15 @@ func (s Segments) MarshalJSON() ([]byte, error) {
 		return nil, err
 	}
 
-	for _, t := range s {
-		if err := ser.Write(t); err != nil {
+	// Get sorted keys.
+	r := make([]int, 0, len(s))
+	for _, v := range s {
+		r = append(r, int(v.ID))
+	}
+	sort.Ints(r)
+
+	for _, i := range r {
+		if err := ser.Write(s[int32(i)]); err != nil {
 			return nil, err
 		}
 	}
