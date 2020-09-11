@@ -4,5 +4,4 @@ package application
 var (
 	BuildVersion string
 	BuildTime    string
-	BuildAuthor  string
 )

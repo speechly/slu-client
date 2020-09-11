@@ -12,9 +12,8 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print application's version",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Build number:\t\t%s\n", application.BuildVersion)
-		fmt.Printf("Build author:\t\t%s\n", application.BuildAuthor)
-		fmt.Printf("Build timestamp:\t%s\n", application.BuildTime)
+		fmt.Printf("Version:   %s\n", application.BuildVersion)
+		fmt.Printf("Timestamp: %s\n", application.BuildTime)
 	},
 }
 

@@ -1,5 +1,4 @@
 VERSION     := $(shell git describe --tags)
-AUTHOR      := $(shell git config user.email)
 TIME        := $(shell date +%FT%T%z)
 
 NAME        := speechly-slu
@@ -12,7 +11,7 @@ CMD         := ./cmd
 SOURCES     := $(shell find . -name '*.go')
 GOPKGS      := $(shell go list ./... | grep -v "/test")
 GOTEST      := -race -cover -covermode=atomic -v $(GOPKGS)
-GOFLAGS     := "-X github.com/speechly/slu-client/internal/application.BuildVersion=$(VERSION) -X github.com/speechly/slu-client/internal/application.BuildTime=$(TIME) -X github.com/speechly/slu-client/internal/application.BuildAuthor=$(AUTHOR)"
+GOFLAGS     := "-X github.com/speechly/slu-client/internal/application.BuildVersion=$(VERSION) -X github.com/speechly/slu-client/internal/application.BuildTime=$(TIME)"
 
 all: vendor proto lint test build
 .PHONY: all
