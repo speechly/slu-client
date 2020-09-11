@@ -20,9 +20,9 @@ curl -L https://github.com/speechly/slu-client/releases/latest/download/speechly
 or, if you want a specific version:
 
 ```sh
-export VERSION="v0.1.0"
+export VERSION="v1.0.1"
 brew install portaudio
-curl -L https://github.com/speechly/slu-client/releases/latest/download/${VERSION}/speechly-slu-macos-amd64.tar.gz | tar xz
+curl -L https://github.com/speechly/slu-client/releases/download/${VERSION}/speechly-slu-macos-amd64.tar.gz | tar xz
 ```
 
 ### Ubuntu / Debian
