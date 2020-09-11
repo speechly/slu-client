@@ -143,20 +143,12 @@ func newCtxHandler(
 }
 
 func (r *ctxHandler) Read() (AudioContext, error) {
-	select {
-	case c, more := <-r.res:
-		if !more {
-			return AudioContext{}, io.EOF
-		}
-
-		return c, nil
-	case <-r.done:
-		if r.runErr == nil {
-			return AudioContext{}, io.EOF
-		}
-
-		return AudioContext{}, r.runErr
+	c, more := <-r.res
+	if !more {
+		return c, io.EOF
 	}
+
+	return c, nil
 }
 
 func (r *ctxHandler) Close() error {
