@@ -232,6 +232,8 @@ func (r *ctxHandler) run() {
 					return err
 				}
 
+				r.log.Debug("received response from API", res)
+
 				var (
 					id  = res.GetAudioContext()
 					sid = res.GetSegmentId()
