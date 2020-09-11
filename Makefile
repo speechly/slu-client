@@ -1,12 +1,18 @@
-CMD         := ./cmd
+VERSION     := $(shell git describe --tags)
+AUTHOR      := $(shell git config user.email)
+TIME        := $(shell date +%FT%T%z)
+
 NAME        := speechly-slu
 BUILDNAME   ?= ./bin/$(NAME)
 INSTALLNAME := ${GOBIN}/$(NAME)
 LINTNAME    := .linted
 PROTONAME   := pkg/speechly/*.pb.go
+
+CMD         := ./cmd
 SOURCES     := $(shell find . -name '*.go')
 GOPKGS      := $(shell go list ./... | grep -v "/test")
 GOTEST      := -race -cover -covermode=atomic -v $(GOPKGS)
+GOFLAGS     := "-X github.com/speechly/slu-client/internal/application.BuildVersion=$(VERSION) -X github.com/speechly/slu-client/internal/application.BuildTime=$(TIME) -X github.com/speechly/slu-client/internal/application.BuildAuthor=$(AUTHOR)"
 
 all: vendor proto lint test build
 .PHONY: all
@@ -25,10 +31,10 @@ test:
 .PHONY: test
 
 $(INSTALLNAME): $(SOURCES)
-	go build -i -o $(INSTALLNAME) $(CMD)
+	go build -i -o $(INSTALLNAME) -ldflags $(GOFLAGS) $(CMD)
 
 $(BUILDNAME): $(SOURCES)
-	go build -o $(BUILDNAME) $(CMD)
+	go build -o $(BUILDNAME) -ldflags $(GOFLAGS) $(CMD)
 
 $(PROTONAME): api/speechly/*.proto
 	protoc \
