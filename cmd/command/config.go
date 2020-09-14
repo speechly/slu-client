@@ -5,8 +5,10 @@ import (
 	"fmt"
 	goos "os"
 	"path"
+	"sort"
 	"strings"
 	"syscall"
+	"text/tabwriter"
 
 	"github.com/google/uuid"
 	"github.com/mitchellh/go-homedir"
@@ -60,8 +62,18 @@ var configPrintCmd = &cobra.Command{
 	PreRun: checkConfig,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := os.WithSignal(cmd.Context(), func(ctx context.Context) error {
-			_, err := fmt.Fprint(goos.Stdout, getConfigString())
-			return err
+			// Sort config keys
+			ks := make([]string, 0, len(validConfigKeys))
+			for k := range validConfigKeys {
+				ks = append(ks, k)
+			}
+			sort.Strings(ks)
+
+			t := tabwriter.NewWriter(goos.Stdout, 4, 0, 1, ' ', 0)
+			for _, k := range ks {
+				fmt.Fprintf(t, "%s: \t%s\n", k, viper.GetString(k))
+			}
+			return t.Flush()
 		}, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
 		ensure(err)
@@ -154,7 +166,12 @@ func init() {
 
 func checkConfig(cmd *cobra.Command, args []string) {
 	if !config.IsValid() {
-		cmd.PrintErrln("Cannot proceed without valid config, please generate one using 'speechly config generate'!")
+		if len(goos.Args) > 0 {
+			cmd.PrintErrf("Cannot proceed without valid config, please generate one using '%s config generate'!\n", goos.Args[0])
+		} else {
+			cmd.Println("Cannot proceed without valid config, please generate one using 'config generate'!")
+		}
+
 		goos.Exit(1)
 	}
 }
@@ -195,16 +212,6 @@ func configKeysHelpString() string {
 
 	for key, desc := range validConfigKeys {
 		b.WriteString(fmt.Sprintf("* %s\t%s\n", key, desc))
-	}
-
-	return b.String()
-}
-
-func getConfigString() string {
-	b := strings.Builder{}
-
-	for key := range validConfigKeys {
-		b.WriteString(fmt.Sprintf("* %s\t%s\n", key, viper.GetString(key)))
 	}
 
 	return b.String()
