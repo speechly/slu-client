@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/url"
 
+	sluv1 "github.com/speechly/api/go/speechly/slu/v1"
 	"golang.org/x/text/language"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -47,7 +48,7 @@ func (c *Client) StreamingRecognise(ctx context.Context, fmt Config) (RecogniseS
 	}
 
 	ctx = metadata.AppendToOutgoingContext(ctx, "Authorization", "Bearer "+c.token.String())
-	str, err := speechly.NewSLUClient(conn).Stream(ctx, grpc.WaitForReady(true))
+	str, err := sluv1.NewSLUClient(conn).Stream(ctx, grpc.WaitForReady(true))
 	if err != nil {
 		return nil, err
 	}

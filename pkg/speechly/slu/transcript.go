@@ -4,8 +4,9 @@ import (
 	"errors"
 	"sort"
 
+	sluv1 "github.com/speechly/api/go/speechly/slu/v1"
+
 	"github.com/speechly/slu-client/internal/json"
-	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 var errNilValue = errors.New("cannot parse nil value")
@@ -20,7 +21,7 @@ type Transcript struct {
 }
 
 // Parse parses response from API into Transcript.
-func (t *Transcript) Parse(v *speechly.SLUTranscript, isTentative bool) error {
+func (t *Transcript) Parse(v *sluv1.SLUTranscript, isTentative bool) error {
 	if v == nil {
 		return errNilValue
 	}

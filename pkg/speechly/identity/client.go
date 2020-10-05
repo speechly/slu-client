@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	"github.com/google/uuid"
+	identityv1 "github.com/speechly/api/go/speechly/identity/v1"
 	"google.golang.org/grpc"
 
 	pgrpc "github.com/speechly/slu-client/internal/grpc"
@@ -35,8 +36,8 @@ func NewClient(u url.URL) (*Client, error) {
 // It will parse returned token into speechly.AccessToken and return it or any error if it happens.
 // nolint: interfacer // linter wants to pass a Stringer instead of UUID, which defeats the purpose of type safety.
 func (c *Client) Login(ctx context.Context, appID, deviceID uuid.UUID) (t speechly.AccessToken, err error) {
-	res := speechly.LoginResponse{}
-	req := speechly.LoginRequest{
+	res := identityv1.LoginResponse{}
+	req := identityv1.LoginRequest{
 		AppId:    appID.String(),
 		DeviceId: deviceID.String(),
 	}

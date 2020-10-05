@@ -6,18 +6,18 @@ import (
 	"errors"
 	"io"
 
+	sluv1 "github.com/speechly/api/go/speechly/slu/v1"
 	"golang.org/x/sync/errgroup"
 
 	"github.com/speechly/slu-client/pkg/logger"
-	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 var (
-	startReq = speechly.SLURequest{
-		StreamingRequest: &speechly.SLURequest_Event{Event: &speechly.SLUEvent{Event: speechly.SLUEvent_START}},
+	startReq = sluv1.SLURequest{
+		StreamingRequest: &sluv1.SLURequest_Event{Event: &sluv1.SLUEvent{Event: sluv1.SLUEvent_START}},
 	}
-	stopReq = speechly.SLURequest{
-		StreamingRequest: &speechly.SLURequest_Event{Event: &speechly.SLUEvent{Event: speechly.SLUEvent_STOP}},
+	stopReq = sluv1.SLURequest{
+		StreamingRequest: &sluv1.SLURequest_Event{Event: &sluv1.SLUEvent{Event: sluv1.SLUEvent_STOP}},
 	}
 )
 
@@ -106,7 +106,7 @@ type AudioContextHandler interface {
 }
 
 type ctxHandler struct {
-	str      speechly.SLU_StreamClient
+	str      sluv1.SLU_StreamClient
 	src      AudioSource
 	res      chan AudioContext
 	log      logger.Logger
@@ -118,7 +118,7 @@ type ctxHandler struct {
 }
 
 func newCtxHandler(
-	ctx context.Context, str speechly.SLU_StreamClient, src AudioSource, chanSize int, log logger.Logger, done func(),
+	ctx context.Context, str sluv1.SLU_StreamClient, src AudioSource, chanSize int, log logger.Logger, done func(),
 ) (*ctxHandler, error) {
 	if err := str.Send(&startReq); err != nil {
 		return nil, err
@@ -180,8 +180,8 @@ func (r *ctxHandler) run() {
 
 		var (
 			buf = bytes.Buffer{}
-			req = speechly.SLURequest_Audio{}
-			msg = speechly.SLURequest{StreamingRequest: &req}
+			req = sluv1.SLURequest_Audio{}
+			msg = sluv1.SLURequest{StreamingRequest: &req}
 		)
 
 		for done := false; !done; {
@@ -244,7 +244,7 @@ func (r *ctxHandler) run() {
 				}
 
 				switch v := res.GetStreamingResponse().(type) {
-				case *speechly.SLUResponse_Transcript:
+				case *sluv1.SLUResponse_Transcript:
 					if err := t.Parse(v.Transcript, false); err != nil {
 						return err
 					}
@@ -252,7 +252,7 @@ func (r *ctxHandler) run() {
 					if err := cn.AddTranscript(sid, t); err != nil {
 						return err
 					}
-				case *speechly.SLUResponse_Entity:
+				case *sluv1.SLUResponse_Entity:
 					if err := e.Parse(v.Entity, false); err != nil {
 						return err
 					}
@@ -260,7 +260,7 @@ func (r *ctxHandler) run() {
 					if err := cn.AddEntity(sid, e); err != nil {
 						return err
 					}
-				case *speechly.SLUResponse_Intent:
+				case *sluv1.SLUResponse_Intent:
 					if err := i.Parse(v.Intent, false); err != nil {
 						return err
 					}
@@ -269,7 +269,7 @@ func (r *ctxHandler) run() {
 						return err
 					}
 
-				case *speechly.SLUResponse_TentativeTranscript:
+				case *sluv1.SLUResponse_TentativeTranscript:
 					for _, v := range v.TentativeTranscript.GetTentativeWords() {
 						if err := t.Parse(v, true); err != nil {
 							return err
@@ -279,7 +279,7 @@ func (r *ctxHandler) run() {
 							return err
 						}
 					}
-				case *speechly.SLUResponse_TentativeEntities:
+				case *sluv1.SLUResponse_TentativeEntities:
 					for _, v := range v.TentativeEntities.GetTentativeEntities() {
 						if err := e.Parse(v, true); err != nil {
 							return err
@@ -289,7 +289,7 @@ func (r *ctxHandler) run() {
 							return err
 						}
 					}
-				case *speechly.SLUResponse_TentativeIntent:
+				case *sluv1.SLUResponse_TentativeIntent:
 					if err := i.Parse(v.TentativeIntent, true); err != nil {
 						return err
 					}
@@ -297,15 +297,15 @@ func (r *ctxHandler) run() {
 					if err := cn.SetIntent(sid, i); err != nil {
 						return err
 					}
-				case *speechly.SLUResponse_SegmentEnd:
+				case *sluv1.SLUResponse_SegmentEnd:
 					if err := cn.FinaliseSegment(sid); err != nil {
 						return err
 					}
-				case *speechly.SLUResponse_Started:
+				case *sluv1.SLUResponse_Started:
 					if err := cn.SetID(res.GetAudioContext()); err != nil {
 						return err
 					}
-				case *speechly.SLUResponse_Finished:
+				case *sluv1.SLUResponse_Finished:
 					if err := cn.Finalise(); err != nil {
 						return err
 					}

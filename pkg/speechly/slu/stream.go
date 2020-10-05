@@ -5,8 +5,9 @@ import (
 	"io"
 	"sync"
 
+	sluv1 "github.com/speechly/api/go/speechly/slu/v1"
+
 	"github.com/speechly/slu-client/pkg/logger"
-	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 // AudioSource is the interface that represents the audio data source
@@ -31,16 +32,16 @@ type RecogniseStream interface {
 }
 
 type stream struct {
-	stream speechly.SLU_StreamClient
+	stream sluv1.SLU_StreamClient
 	log    logger.Logger
 	lock   sync.Mutex
 }
 
-func newStream(str speechly.SLU_StreamClient, f Config, log logger.Logger) (*stream, error) {
-	if err := str.Send(&speechly.SLURequest{
-		StreamingRequest: &speechly.SLURequest_Config{
-			Config: &speechly.SLUConfig{
-				Encoding:        speechly.SLUConfig_LINEAR16,
+func newStream(str sluv1.SLU_StreamClient, f Config, log logger.Logger) (*stream, error) {
+	if err := str.Send(&sluv1.SLURequest{
+		StreamingRequest: &sluv1.SLURequest_Config{
+			Config: &sluv1.SLUConfig{
+				Encoding:        sluv1.SLUConfig_LINEAR16,
 				Channels:        f.NumChannels,
 				SampleRateHertz: f.SampleRateHertz,
 				LanguageCode:    f.LanguageCode.String(),

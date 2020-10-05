@@ -3,8 +3,9 @@ package slu
 import (
 	"sort"
 
+	sluv1 "github.com/speechly/api/go/speechly/slu/v1"
+
 	"github.com/speechly/slu-client/internal/json"
-	"github.com/speechly/slu-client/pkg/speechly"
 )
 
 // Entity is the entity detected by SLU API.
@@ -17,7 +18,7 @@ type Entity struct {
 }
 
 // Parse parses response from API into Entity.
-func (e *Entity) Parse(v *speechly.SLUEntity, isTentative bool) error {
+func (e *Entity) Parse(v *sluv1.SLUEntity, isTentative bool) error {
 	if v == nil {
 		return errNilValue
 	}
