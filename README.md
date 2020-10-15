@@ -1,6 +1,8 @@
+# <a href="https://speechly.com/"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
+
 # Speechly SLU API client
 
-This repository contains the source code for Speechly SLU API client, written in Go. It also includes functionality to record and play WAV audio files. Recorded files can then be streamed to SLU API, instead of streaming the microphone.
+This repository contains the source code for [Speechly](https://www.speechly.com/) SLU API client, written in Go. It also includes functionality to record and play WAV audio files. Recorded files can then be streamed to SLU API, instead of streaming the microphone.
 
 The client can be used as a standalone CLI app or included in other Go projects as a library.
 
