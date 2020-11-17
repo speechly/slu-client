@@ -12,11 +12,6 @@ import (
 	"github.com/speechly/slu-client/pkg/speechly"
 )
 
-const (
-	name   = "speechly.identity.v1"
-	method = "/v1.Identity/Login"
-)
-
 // Client is a client for Speechly Identity API.
 type Client struct {
 	*pgrpc.Client
@@ -24,7 +19,7 @@ type Client struct {
 
 // NewClient returns a new Client configured to use provided URL.
 func NewClient(u url.URL) (*Client, error) {
-	c, err := pgrpc.NewClient(name, u)
+	c, err := pgrpc.NewClient("speechly.identity.v1", u)
 	if err != nil {
 		return nil, err
 	}
@@ -36,13 +31,18 @@ func NewClient(u url.URL) (*Client, error) {
 // It will parse returned token into speechly.AccessToken and return it or any error if it happens.
 // nolint: interfacer // linter wants to pass a Stringer instead of UUID, which defeats the purpose of type safety.
 func (c *Client) Login(ctx context.Context, appID, deviceID uuid.UUID) (t speechly.AccessToken, err error) {
-	res := identityv1.LoginResponse{}
+	conn, err := c.Conn()
+	if err != nil {
+		return t, err
+	}
+
 	req := identityv1.LoginRequest{
 		AppId:    appID.String(),
 		DeviceId: deviceID.String(),
 	}
 
-	if err := c.Invoke(ctx, method, &req, &res, grpc.WaitForReady(true)); err != nil {
+	res, err := identityv1.NewIdentityClient(conn).Login(ctx, &req, grpc.WaitForReady(true))
+	if err != nil {
 		return t, err
 	}
 
