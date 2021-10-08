@@ -30,6 +30,7 @@ linters:
     - dogsled
     - dupl
     - errcheck
+    - exportloopref
     - funlen
     - gochecknoinits
     - goconst
@@ -37,7 +38,6 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - golint
     # Disabled gomnd until https://github.com/golangci/golangci-lint/pull/983 is merged
     # with support for ignoring specific numbers (e.g. 0 or 1).
     # - gomnd
@@ -46,12 +46,11 @@ linters:
     - gosimple
     - govet
     - ineffassign
-    - interfacer
     - lll
     - misspell
     - nakedret
+    - revive
     - rowserrcheck
-    - scopelint
     - staticcheck
     - structcheck
     - typecheck
@@ -60,7 +59,6 @@ linters:
     - unused
     - varcheck
     - whitespace
-    - maligned
     - prealloc
     - gocognit
     # TODO: enable godox once TODOs have been resolved
