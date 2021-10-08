@@ -36,7 +36,7 @@ var rootCmd = &cobra.Command{
 	Short: "CLI program for working with Speechly SLU API",
 }
 
-func Execute() error { // nolint: golint
+func Execute() error { // nolint: revive
 	return rootCmd.Execute()
 }
 
